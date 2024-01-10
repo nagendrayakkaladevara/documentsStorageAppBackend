@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const Responce = require('./responceModel');
+const Accounts = require('./accountsModel');
 
 const app = express();
 app.use(express.json()) // meterwear app will take responce in json 
@@ -72,6 +73,32 @@ app.put('/responce/:id', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+
+
+// ----------accounts end points-------------
+
+// get accounts endpoint 
+app.get('/accounts', async (req, res) => {
+    try {
+        const responce = await Accounts.find({});
+        res.status(200).json(responce);
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+// post accounts endpoint
+app.post('/accounts', async (req, res) => {
+    try {
+        const responce = await Accounts.create(req.body)
+        res.status(200).json(responce);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: error.message })
+    }
+})
+
 
 mongoose.connect('mongodb+srv://yakkaladevara02:Sep2024@ecrsuapp.ausdj3x.mongodb.net/UploadNews?retryWrites=true&w=majority')
     .then(() => {
